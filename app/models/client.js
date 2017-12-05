@@ -7,11 +7,11 @@ module.exports = () => {
 		// Scope for internal access control
 		scope: {
 			type: String,
-			default: "pos"
+			default: "client"
 		},
 
 		// Auth info
-		pos_id: {
+		email: {
 			type: String,
 			index: true,
 			required: true
@@ -23,13 +23,17 @@ module.exports = () => {
       	},
 
       	tokenList: [String],
+		
+		// General info
+		name: {
+	        type: String,
+	        required: true
+	    },
 
-      	// General info
-		name: String,
-
-		cnpj: String,
-
-		address: String,
+		address: {
+	        type: String,
+	        required: true
+      	},
 
 		timeStamp: {
 			type: Date,
@@ -37,14 +41,11 @@ module.exports = () => {
 		},
 
 
-		deliveryPrice: Number,
-
-
 		// Control flag
 		isActive: Boolean
 
 	});
 
-	return mongoose.model('Pos', schema);
+	return mongoose.model('Client', schema);
 
 }

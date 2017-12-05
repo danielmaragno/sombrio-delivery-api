@@ -10,7 +10,8 @@ module.exports = function(){
 
 	app.set('port', process.env.PORT);
 
-	consign({cwd: __dirname + '/../app/'})
+	// consign({cwd: __dirname + '/../app'})
+	consign({cwd: 'app'})
 		.include('models')
 		.include('controllers')
 		.include('routes')
