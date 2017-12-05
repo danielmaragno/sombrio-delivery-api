@@ -9,6 +9,7 @@ module.exports = (app) => {
 	};
 
 	controller.checkLoginPos = (req, res, next) => {
+		req.body.pos = { 'pos_id': 'pao_mel' };
 		next();
 	};
 
