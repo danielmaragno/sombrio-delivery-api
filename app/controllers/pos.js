@@ -9,11 +9,11 @@ module.exports = (app) => {
 	var controller = {};
 
 	controller.findPosPos = (req, res) => {
-		let pos_id = req.body.pos.pos_id;
+		let id = req.body.pos.id;
 
 		const filter = {
 			'_id': true,
-			'pos_id': true,
+			'id': true,
 			'name': true,
 			'cnpj': true,
 			'address': true,
@@ -21,12 +21,12 @@ module.exports = (app) => {
 			'deliveryPrice': true
 		};
 
-		findPos(res, pos_id, filter);
+		findPos(res, id, filter);
 	};
 
 	// Update POS
 	controller.updatePosPos = (req, res) => {
-		var pos_id = req.body.pos.pos_id;
+		var id = req.body.pos.id;
 
 		// Filter Update fields
 		var required_data = req.body.required_data;
@@ -35,10 +35,9 @@ module.exports = (app) => {
 		if('deliveryPrice' in required_data)
 			data['deliveryPrice'] = required_data['deliveryPrice'];
 
-		
 		Pos
 			.update(
-				{'pos_id': pos_id, 'isActive': true},
+				{'id': id, 'isActive': true},
 				{'$set': data}
 			)
 			.exec()
@@ -59,7 +58,7 @@ module.exports = (app) => {
 
 	controller.findSpecificPosClient = (req, res) =>{
 
-		let pos_id = req.params.pos_id;
+		let id = req.params.id;
 
 		const filter = {
 			'name': true,
@@ -67,7 +66,7 @@ module.exports = (app) => {
 			'deliveryPrice': true
 		};
 
-		findPos(res, pos_id, filter);
+		findPos(res, id, filter);
 
 	};
 
@@ -75,10 +74,10 @@ module.exports = (app) => {
 	// Support Functions
 	//
 
-	function findPos(res, pos_id, filter){
+	function findPos(res, id, filter){
 		Pos
 			.findOne(
-				{'pos_id': pos_id, 'isActive': true}, 
+				{'id': id, 'isActive': true}, 
 				filter
 			)
 			.exec()

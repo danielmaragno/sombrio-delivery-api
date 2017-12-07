@@ -12,7 +12,7 @@ module.exports = () => {
 		},
 
 		// Auth info
-		username: {
+		id: {
 			type: String,
 			index: true,
 			unique: true,
@@ -24,7 +24,10 @@ module.exports = () => {
 	        required: true
       	},
 
-      	tokenList: [String],
+      	tokenList: {
+      		type: [String],
+      		default: []
+      	},
 		
 		// General info
 		name: {

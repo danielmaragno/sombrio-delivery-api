@@ -14,7 +14,7 @@ module.exports = (app) => {
 
 
 	// Route for CLIENT
-	app.route('/pos/:pos_id')
+	app.route('/pos/:id')
 
 		.get(session.checkLoginClient, controller.findSpecificPosClient)
 		;

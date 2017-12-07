@@ -1,5 +1,8 @@
 
 
+// Utils Auth 
+const utils_auth = require("../../utils/auth.js");
+
 module.exports = (app) => {
 
 	const Client = app.models.client;
@@ -10,6 +13,9 @@ module.exports = (app) => {
 	controller.createClient = function(req, res) {
 
 		const newClient = req.body.client;
+
+		// Generate passwd hash
+		newClient.passwd = utils_auth.generatePasswordHash(newClient.passwd);
 
 		(new Client(newClient))
 			.save()
@@ -22,9 +28,9 @@ module.exports = (app) => {
 					const error = err.errors;
 					let error_code;
 
-					// username already exists
-					if('username' in error){
-						error_code = 'username_FAIL';
+					// id already exists
+					if('id' in error){
+						error_code = 'id_FAIL';
 						res.status(400).send(error_code);
 					}
 
@@ -36,17 +42,17 @@ module.exports = (app) => {
 
 	controller.findClient = function(req, res){
 
-		const username = req.body.client.username;
+		const id = req.body.client.id;
 
 		const filter = {
-			'username': true,
+			'id': true,
 			'name': true,
 			'address': true
 		}
 
 		Client
 			.findOne(
-				{'username': username},
+				{'id': id},
 				filter
 
 			)
@@ -65,7 +71,7 @@ module.exports = (app) => {
 
 	controller.updateClient = function(req, res){
 
-		const username = req.body.client.username;
+		const id = req.body.client.id;
 
 		const required_data = req.body.required_data;
 		var data = {
@@ -74,7 +80,7 @@ module.exports = (app) => {
 
 		Client
 			.update(
-				{'username': username},
+				{'id': id},
 				{"$set": data} 
 			)
 			.exec()

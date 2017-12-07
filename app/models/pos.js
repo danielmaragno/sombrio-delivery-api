@@ -11,7 +11,7 @@ module.exports = () => {
 		},
 
 		// Auth info
-		pos_id: {
+		id: {
 			type: String,
 			index: true,
 			required: true

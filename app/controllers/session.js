@@ -9,12 +9,12 @@ module.exports = (app) => {
 	};
 
 	controller.checkLoginPos = (req, res, next) => {
-		req.body.pos = { 'pos_id': 'pao_mel' };
+		req.body.pos = { 'id': 'pao_mel' };
 		next();
 	};
 
 	controller.checkLoginClient = (req, res, next) => {
-		req.body.client = { 'username': 'daniel' };
+		req.body.client = { 'id': 'daniel' };
 		next();
 	};
 

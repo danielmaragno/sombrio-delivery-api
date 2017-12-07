@@ -21,8 +21,12 @@ exports.generatePasswordHash = function(password) {
 };
 
 exports.comparePasswords = function(plainPw, hashPw) {
-    var comparePw = bcrypt.compareSync(plainPw, hashPw);
-    return comparePw;
+    if(plainPw && hashPw){
+        var comparePw = bcrypt.compareSync(plainPw, hashPw);
+        return comparePw;
+    }
+    else
+        return false;
 };
 
 
@@ -30,6 +34,10 @@ exports.comparePasswords = function(plainPw, hashPw) {
 //	Token operations
 //
 
+// Read secret key for generate token
+var readTokenSecret = function() {
+    return String(fs.readFileSync(__dirname + "/token-secret"));
+};
 
 exports.generateToken = function(user) {
     // Read secret key
