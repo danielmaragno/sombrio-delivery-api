@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
 
 module.exports = () => {
 
@@ -11,9 +12,10 @@ module.exports = () => {
 		},
 
 		// Auth info
-		email: {
+		username: {
 			type: String,
 			index: true,
+			unique: true,
 			required: true
 		},
 
@@ -42,9 +44,14 @@ module.exports = () => {
 
 
 		// Control flag
-		isActive: Boolean
+		isActive: {
+			type: Boolean,
+			default: true
+		}
 
 	});
+
+	schema.plugin(uniqueValidator);
 
 	return mongoose.model('Client', schema);
 

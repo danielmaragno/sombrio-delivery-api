@@ -14,6 +14,7 @@ module.exports = (app) => {
 	};
 
 	controller.checkLoginClient = (req, res, next) => {
+		req.body.client = { 'username': 'daniel' };
 		next();
 	};
 
