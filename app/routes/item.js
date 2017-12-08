@@ -5,7 +5,7 @@ module.exports = (app) => {
 	var controller  = app.controllers.item;
 	var session		= app.controllers.session;
 
-	app.route('/items/:pos_id')
+	app.route('/pos/:pos_id/items')
 
 		.get(session.checkLoginGeneral, controller.callItemsByPos)
 		;

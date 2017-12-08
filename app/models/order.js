@@ -21,19 +21,36 @@ module.exports = (app) => {
 			default: Date.now
 		},
 
+		client_name: {
+			type: String,
+			required: true
+		},
+
+		client_address: {
+			type: String,
+			required: true
+		},
+
 		items: [{
 			name: String,
 			price: Number
 		}],
 
-		delivery_price: Number,
+		formaPagamento: String,
 
-		total_price: Number,
+		observacao: String,
+		
+		deliveryPrice: Number,
 
+		total_price: {
+			type: Number,
+			required: true
+		},
 
 		status: {
 			type: String,
-			enum: ["requested", "accepted", "canceled", "on_road", "done"]
+			enum: ["requested", "accepted", "canceled", "on_road", "done"],
+			default: "requested"
 		}
 
 
