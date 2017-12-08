@@ -1,5 +1,8 @@
 
 
+// Utils Auth 
+const utils_auth = require("../../utils/auth.js");
+
 module.exports = (app) => {
 
 	const Client = app.models.client;
@@ -7,8 +10,24 @@ module.exports = (app) => {
 
 	var controller = {};
 
-	controller.checkLogin = (req, res, next) => {
-		next();
+	controller.checkLoginGeneral = (req, res, next) => {
+		
+		const token = req.headers['x-access-token'];
+
+		if(!token)
+			res.sendStatus(401);
+
+		else {
+			utils_auth.decodeToken(token, (err, user) => {
+				if(user.scope === 'client'){
+					findUser(req, res, next, Client, user.scope, token);
+				}
+				else if(user.scope === 'pos'){
+					findUser(req, res, next, Pos, user.scope, token);
+				}
+			});
+		}
+
 	};
 
 	controller.checkLoginPos = (req, res, next) => {
@@ -19,23 +38,7 @@ module.exports = (app) => {
 			res.sendStatus(401);
 
 		else{
-			Pos
-				.findOne({"tokenList": token, "isActive": true})
-				.exec()
-				.then(
-					function(pos){
-						if(pos){
-							req.body.pos = pos;
-							next();
-						}
-						else
-							res.sendStatus(401);
-					},
-					function(err){
-						console.log(err);
-						res.sendStatus(500);
-					}
-				)
+			findUser(req, res, next, Pos, 'pos', token);
 		}
 	};
 
@@ -46,24 +49,34 @@ module.exports = (app) => {
 			res.sendStatus(401);
 
 		else{
-			Client
-				.findOne({"tokenList": token, "isActive": true})
-				.exec()
-				.then(
-					function(client){
-						if(client){
-							req.body.client = client;
-							next();
-						}
-						else
-							res.sendStatus(401);
-					},
-					function(err){
-						console.log(err);
-						res.sendStatus(500);
-					}
-				)
+			findUser(req, res, next, Client, 'client', token);
 		}
+	};
+
+
+	// Support Function
+	
+	function findUser(req, res, next, Collection, scope, token){
+		Collection
+			.findOne({"tokenList": token, "isActive": true})
+			.exec()
+			.then(
+				function(user){
+					if(user){
+						if (scope === 'client')
+							req.body.client = user;
+						else
+							req.body.pos = user;
+						next();
+					}
+					else
+						res.sendStatus(401);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
 	};
 
 	return controller;
