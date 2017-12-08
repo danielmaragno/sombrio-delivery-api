@@ -10,19 +10,28 @@ module.exports = () => {
 			required: true
 		},
 
-		name: String,
+		name: {
+			type: String,
+			required: true
+		},
 
 		image: String,
 
 		// price in BRL cents
-		price: Number,
+		price: {
+			type: Number,
+			required: true
+		},
 
 		timeStamp: {
 			type: Date,
 			default: Date.now
 		},
 
-		sort: Number,
+		sort: {
+			type: Number,
+			default: 1000,
+		},
 
 		// Control flag
 		isActive: {

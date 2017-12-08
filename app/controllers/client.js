@@ -14,30 +14,36 @@ module.exports = (app) => {
 
 		const newClient = req.body.client;
 
-		// Generate passwd hash
-		newClient.passwd = utils_auth.generatePasswordHash(newClient.passwd);
+		if(newClient && 'passwd' in newClient){
 
-		(new Client(newClient))
-			.save()
-			.then(
-				function(data) {
-					// console.log(data);
-					res.sendStatus(200);
-				},
-				function(err){
-					const error = err.errors;
-					let error_code;
+			// Generate passwd hash
+			newClient.passwd = utils_auth.generatePasswordHash(newClient.passwd);
 
-					// id already exists
-					if('id' in error){
-						error_code = 'id_FAIL';
-						res.status(400).send(error_code);
+			(new Client(newClient))
+				.save()
+				.then(
+					function(data) {
+						// console.log(data);
+						res.sendStatus(200);
+					},
+					function(err){
+						const error = err.errors;
+						let error_code;
+
+						// id already exists
+						if('id' in error){
+							error_code = 'id_FAIL';
+							res.status(400).send(error_code);
+						}
+
+						else
+							res.sendStatus(500);
 					}
+				)
+		}
+		else
+			res.sendStatus(500);
 
-					else
-						res.sendStatus(500);
-				}
-			)
 	};
 
 	controller.findClient = function(req, res){
