@@ -49,7 +49,7 @@ module.exports = (app) => {
 
 		status: {
 			type: String,
-			enum: ["requested", "accepted", "canceled", "on_road", "done"],
+			enum: ["requested", "confirmed", "canceled", "on_road", "done"],
 			default: "requested"
 		}
 

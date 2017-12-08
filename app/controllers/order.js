@@ -92,6 +92,46 @@ module.exports = function(app){
 	//	POS requests
 	//
 
+	controller.callOrders = function(req, res){
+		const pos = req.body.pos;
+
+		Order
+			.find({"pos_id": pos.id})
+			.sort({"timeStamp": -1})
+			.exec()
+			.then(
+				function(orders){
+					res.status(200).send(orders);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+
+	};
+
+	controller.updateStatus = function(req, res){
+
+		const id  = req.params.order_id;
+		const pos = req.body.pos;
+		const data = req.body.data;
+
+		Order
+			.update({"_id": id, "pos_id": pos.id},{"$set": {"status": data.status}})
+			.exec()
+			.then(
+				function(){
+					res.sendStatus(200);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+			) 
+
+	};
+
 	return controller;
 
 };
