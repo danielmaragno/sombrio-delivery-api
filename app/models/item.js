@@ -22,9 +22,13 @@ module.exports = () => {
 			default: Date.now
 		},
 
+		sort: Number,
 
 		// Control flag
-		isActive: Boolean
+		isActive: {
+			type: Boolean,
+			default: true
+		}
 
 	});
 
