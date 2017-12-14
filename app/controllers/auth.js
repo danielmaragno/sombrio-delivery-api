@@ -45,20 +45,20 @@ module.exports = (app) => {
 			.findOne({'id': info.id})
 			.exec()
 			.then(
-				function(client){
+				function(user){
 					// Not found (send 403 for security issues)
-					if(!client)
+					if(!user)
 						res.sendStatus(403);
 					
 					// Compare passwd
-					else if(!utils_auth.comparePasswords(info.passwd, client.passwd))
+					else if(!utils_auth.comparePasswords(info.passwd, user.passwd))
 						res.sendStatus(403);
 
 					// LoginOK
 					else{
-						const token = utils_auth.generateToken(client);
-						Client
-							.update({'_id': client._id},{'$push': {'tokenList': token}})
+						const token = utils_auth.generateToken(user);
+						Collection
+							.update({'_id': user._id},{'$push': {'tokenList': token}})
 							.exec()
 							.then(
 								function(){
