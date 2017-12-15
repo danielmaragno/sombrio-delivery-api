@@ -31,6 +31,8 @@ module.exports = () => {
 
 		address: String,
 
+		image: String,
+
 		timeStamp: {
 			type: Date,
 			default: Date.now
