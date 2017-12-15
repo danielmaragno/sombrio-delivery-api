@@ -46,7 +46,7 @@ module.exports = (app) => {
 			.exec()
 			.then(
 				function(user){
-					// Not found (send 403 for security issues)
+					// Not found (send 403 for security issues
 					if(!user)
 						res.sendStatus(403);
 					
@@ -57,12 +57,19 @@ module.exports = (app) => {
 					// LoginOK
 					else{
 						const token = utils_auth.generateToken(user);
+						const userToSend = {
+							'id': user.id,
+							'name': user.name,
+							'deliveryPrice': 'deliveryPrice' in user ? user.deliveryPrice : null,
+							'address': 'address' in user ? user.address : null,
+							'image': 'image' in user ? user.image : null
+						}
 						Collection
 							.update({'_id': user._id},{'$push': {'tokenList': token}})
 							.exec()
 							.then(
 								function(){
-									res.status(200).send({'token': token})
+									res.status(200).send({'token': token, 'user': user})
 								},
 								function(err){
 									console.log(err);
@@ -91,8 +98,10 @@ module.exports = (app) => {
 
 		else{
 			utils_auth.decodeToken(token, function(err, verifiedUser){
-				if(err)
+				if(err){
+					console.log(err);
 					res.sendStatus(500);
+				}
 				else{
 					switch(verifiedUser.scope){
 						case 'client':
