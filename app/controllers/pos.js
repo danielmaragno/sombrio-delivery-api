@@ -18,7 +18,8 @@ module.exports = (app) => {
 			'cnpj': true,
 			'address': true,
 			'timeStamp': true,
-			'deliveryPrice': true
+			'deliveryPrice': true,
+			'image': true
 		};
 
 		findPos(res, id, filter);
