@@ -94,9 +94,10 @@ module.exports = function(app){
 
 	controller.callOrders = function(req, res){
 		const pos = req.body.pos;
+		const timeStamp = new Date(parseInt(req.query.timeStamp));
 
 		Order
-			.find({"pos_id": pos.id})
+			.find({"pos_id": pos.id, "timeStamp": {"$gte": timeStamp}})
 			.sort({"timeStamp": -1})
 			.exec()
 			.then(
