@@ -97,7 +97,7 @@ module.exports = function(app){
 		const timeStamp = new Date(parseInt(req.query.timeStamp));
 
 		Order
-			.find({"pos_id": pos.id, "timeStamp": {"$gte": timeStamp}})
+			.find({"pos_id": pos.id, "timeStamp": {"$gt": timeStamp}})
 			.sort({"timeStamp": -1})
 			.exec()
 			.then(
