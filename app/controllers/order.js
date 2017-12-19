@@ -95,9 +95,30 @@ module.exports = function(app){
 	controller.callOrders = function(req, res){
 		const pos = req.body.pos;
 		const timeStamp = new Date(parseInt(req.query.timeStamp));
+		
+		let query = {
+			"pos_id": pos.id,
+			"timeStamp": { "$gt": timeStamp }
+		};
+
+		if(req.query.date){
+			const date = new Date(parseInt(req.query.date));
+			query['timeStamp'] = {
+				"$gte": (new Date(date)).setHours(0,0,0,0),
+				"$lte": (new Date(date)).setHours(23,59,59,999)
+			}
+		}
+
+		const filter = {
+			"_id": true,
+			"timeStamp": true,
+			"client_name": true,
+			"items": true,
+			"status": true
+		}
 
 		Order
-			.find({"pos_id": pos.id, "timeStamp": {"$gt": timeStamp}})
+			.find(query, filter)
 			.sort({"timeStamp": -1})
 			.exec()
 			.then(
