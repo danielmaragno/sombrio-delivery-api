@@ -12,10 +12,6 @@ module.exports = (app) => {
 
 	app.route('/item')
 
-		.post(session.checkLoginPos, controller.createItem)
-		.put(session.checkLoginPos, controller.editItemPrice)
+		.put(session.checkLoginPos, controller.editItem)
 		;
-	
-	app.route('/item/:id')
-		.delete(session.checkLoginPos, controller.removeItem)
 };

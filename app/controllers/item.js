@@ -11,15 +11,8 @@ module.exports = (app) => {
 
 		const pos_id = req.params.pos_id;
 
-		const filter = {
-			'_id': true,
-			'name': true,
-			'image': true,
-			'price': true
-		}
-
 		Item
-			.find({"pos_id": pos_id})
+			.findOne({"pos_id": pos_id})
 			.sort({"sort": 1})
 			.exec()
 			.then(
@@ -35,61 +28,61 @@ module.exports = (app) => {
 
 	// POS requests
 
-	controller.createItem = function(req, res){
-		let newItem = req.body.item;
+	// controller.createItem = function(req, res){
+	// 	let newItem = req.body.item;
 
-		if(!newItem)
-			res.sendStatus(400);
-		else{
-			newItem.pos_id = req.body.pos.id;
+	// 	if(!newItem)
+	// 		res.sendStatus(400);
+	// 	else{
+	// 		newItem.pos_id = req.body.pos.id;
 
-			(new Item(newItem))
-				.save()
-				.then(
-					function(data){
-						res.sendStatus(200);
-					},
-					function(err){
-						console.log(err);
-						res.sendStatus(500);
-					}
-				)
+	// 		(new Item(newItem))
+	// 			.save()
+	// 			.then(
+	// 				function(data){
+	// 					res.sendStatus(200);
+	// 				},
+	// 				function(err){
+	// 					console.log(err);
+	// 					res.sendStatus(500);
+	// 				}
+	// 			)
 
-		}
+	// 	}
 
 		
-		const item = new Item(req.body.item);
+	// 	const item = new Item(req.body.item);
 
-	};
+	// };
 
-	controller.removeItem = function(req, res){
-		const id 	 = req.params.id;
-		const pos_id = req.body.pos.id;
+	// controller.removeItem = function(req, res){
+	// 	const id 	 = req.params.id;
+	// 	const pos_id = req.body.pos.id;
 
-		console.log(id);
-		console.log(pos_id);
+	// 	console.log(id);
+	// 	console.log(pos_id);
 
-		Item
-			.remove({'_id': id, 'pos_id': pos_id})
-			.exec()
-			.then(
-				function(){
-					res.sendStatus(200);
-				},
-				function(err){
-					console.log(err);
-					res.sendStatus(500);
-				}
-			)
-	};
+	// 	Item
+	// 		.remove({'_id': id, 'pos_id': pos_id})
+	// 		.exec()
+	// 		.then(
+	// 			function(){
+	// 				res.sendStatus(200);
+	// 			},
+	// 			function(err){
+	// 				console.log(err);
+	// 				res.sendStatus(500);
+	// 			}
+	// 		)
+	// };
 
-	controller.editItemPrice = function(req, res){
+	controller.editItem = function(req, res){
 		
 		const pos_id = req.body.pos.id;
-		const required_item = req.body.required_item;
+		const items = req.body.items;
 
 		Item
-			.update({'_id': required_item.id, 'pos_id': pos_id}, {"$set": {'price': required_item.price}})
+			.update({'pos_id': pos_id}, {"$set": {'items': items}}, {upsert: true})
 			.exec()
 			.then(
 				function(){

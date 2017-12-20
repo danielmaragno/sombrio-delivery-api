@@ -10,34 +10,28 @@ module.exports = () => {
 			required: true
 		},
 
-		name: {
-			type: String,
-			required: true
-		},
+		items: [{
+			_id: {
+				type: mongoose.Schema.ObjectId, 
+				default: function () { 
+					return new mongoose.Types.ObjectId()
+				} 
+			},
 
-		image: String,
+			name: {
+				type: String,
+				required: true
+			},
 
-		// price in BRL cents
-		price: {
-			type: Number,
-			required: true
-		},
+			image: String,
 
-		timeStamp: {
-			type: Date,
-			default: Date.now
-		},
-
-		sort: {
-			type: Number,
-			default: 1000,
-		},
-
-		// Control flag
-		isActive: {
-			type: Boolean,
-			default: true
-		}
+			// price in BRL cents
+			price: {
+				type: Number,
+				required: true
+			},
+			
+		}]
 
 	});
 

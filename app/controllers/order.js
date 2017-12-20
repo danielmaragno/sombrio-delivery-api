@@ -36,8 +36,6 @@ module.exports = function(app){
 
 		else{
 
-			const items_id_list = items_list.map((i)=> i.id);
-			
 			const pos 		= req.body.pos;
 			const client 	= req.body.client;
 			let order 	    = req.body.order;
@@ -48,48 +46,57 @@ module.exports = function(app){
 			order.client_name 	 = client.name;
 			order.client_address = client.address;
 			
-			Item.find({"_id": {"$in": items_id_list}}).exec().then(
+			Item.findOne({"pos_id": pos.id}).exec().then(
 
-				(items) => {
-					order.total_price = order.deliveryPrice;
-					order.total_items = 0;
+				(item) => {
+					if(!item)
+						res.sendStatus(404);
 
-					// create item map
-					let item_map = {};
-					for(let i=0, item; item=items[i++];){
-						item_map[item._id] = item;
-					}
+					else{
 
-					// Create Order[items] array
-					order.items = items_list.map(function(i){
-						
-						order.total_price += (item_map[i.id].price * i.qtd);
-						order.total_items += i.qtd;
+						const items = item.items;
+						order.total_price = order.deliveryPrice;
+						order.total_items = 0;
 
-						return {
-							'name': item_map[i.id].name,
-							'price_un': item_map[i.id].price,
-							'qtd': i.qtd
-						};
-					});
+						// create item map
+						let item_map = {};
+						for(let i=0, item; item=items[i++];){
+							item_map[item._id] = item;
+						}
 
-					(new Order(order))
-						.save()
-						.then(
-							function(){
-								res.sendStatus(200);
-							},
-							function(err){
-								console.log(err);
-								res.sendStatus(500);
-							}
-						)
+						// Create Order[items] array
+						order.items = items_list.map(function(i){
+							
+							order.total_price += (item_map[i.id].price * i.qtd);
+							order.total_items += i.qtd;
 
-				}
+							return {
+								'name': item_map[i.id].name,
+								'price_un': item_map[i.id].price,
+								'qtd': i.qtd
+							};
+						});
 
-			)
+						(new Order(order))
+							.save()
+							.then(
+								function(){
+									res.sendStatus(200);
+								},
+								function(err){
+									console.log(err);
+									res.sendStatus(500);
+								}
+							)
+					
+					} // internal else
 
-		} // else
+
+				} // item find
+
+			) // then
+
+		} // external else
 
 	};
 
