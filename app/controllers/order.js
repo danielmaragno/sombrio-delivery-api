@@ -31,11 +31,13 @@ module.exports = function(app){
 
 	controller.createOrder = function(req, res){
 
-		let items_id_list = req.body.items_list;
-		if(!items_id_list) res.sendStatus(400);
+		let items_list = req.body.items_list;
+		if(!items_list) res.sendStatus(400);
 
 		else{
-		
+
+			const items_id_list = items_list.map((i)=> i.id);
+			
 			const pos 		= req.body.pos;
 			const client 	= req.body.client;
 			let order 	    = req.body.order;
@@ -50,6 +52,7 @@ module.exports = function(app){
 
 				(items) => {
 					order.total_price = order.deliveryPrice;
+					order.total_items = 0;
 
 					// create item map
 					let item_map = {};
@@ -58,13 +61,15 @@ module.exports = function(app){
 					}
 
 					// Create Order[items] array
-					order.items = items_id_list.map(function(i){
+					order.items = items_list.map(function(i){
 						
-						order.total_price += item_map[i].price;
+						order.total_price += (item_map[i.id].price * i.qtd);
+						order.total_items += i.qtd;
 
 						return {
-							'name': item_map[i].name,
-							'price': item_map[i].price
+							'name': item_map[i.id].name,
+							'price_un': item_map[i.id].price,
+							'qtd': i.qtd
 						};
 					});
 
@@ -103,6 +108,7 @@ module.exports = function(app){
 
 		if(req.query.date){
 			const date = new Date(parseInt(req.query.date));
+			
 			query['timeStamp'] = {
 				"$gte": (new Date(date)).setHours(0,0,0,0),
 				"$lte": (new Date(date)).setHours(23,59,59,999)
@@ -113,7 +119,7 @@ module.exports = function(app){
 			"_id": true,
 			"timeStamp": true,
 			"client_name": true,
-			"items": true,
+			"total_items": true,
 			"status": true
 		}
 
@@ -133,6 +139,25 @@ module.exports = function(app){
 
 	};
 
+	controller.callSingleOrder = function(req, res) {
+		const pos_id 	= req.body.pos.id;
+		const order_id  = req.params.order_id;
+
+		Order
+			.findOne({'_id': order_id, 'pos_id': pos_id})
+			.exec()
+			.then(
+				function(order){
+					res.status(200).send(order);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+ 
+	};
+
 	controller.updateStatus = function(req, res){
 
 		const id  = req.params.order_id;
@@ -140,7 +165,10 @@ module.exports = function(app){
 		const data = req.body.data;
 
 		Order
-			.update({"_id": id, "pos_id": pos.id},{"$set": {"status": data.status}})
+			.update(
+				{"_id": id, "pos_id": pos.id},
+				{"$set": {"status": data.status, "pos_comentario": data.pos_comentario}}
+			)
 			.exec()
 			.then(
 				function(){

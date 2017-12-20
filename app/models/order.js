@@ -16,6 +16,11 @@ module.exports = (app) => {
 			required: true
 		},
 
+		pos_comentario: {
+			type: String,
+			default: ""
+		},
+
 		timeStamp: {
 			type: Date,
 			default: Date.now
@@ -33,8 +38,14 @@ module.exports = (app) => {
 
 		items: [{
 			name: String,
-			price: Number
+			price_un: Number,
+			qtd: Number
 		}],
+	
+		total_items: {
+			type: Number,
+			default: 0
+		},
 
 		formaPagamento: String,
 

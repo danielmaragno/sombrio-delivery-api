@@ -15,7 +15,16 @@ module.exports = (app) => {
 		.get(session.checkLoginPos, controller.callOrders)
 		;
 
+
+	app.route('/order/:order_id')
+
+		.get(session.checkLoginPos, controller.callSingleOrder)
+		;
+
+
 	app.route('/order/:order_id/status')
+		
 		.put(session.checkLoginPos, controller.updateStatus)
 		;
+
 };
