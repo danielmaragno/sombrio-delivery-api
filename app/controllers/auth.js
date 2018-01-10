@@ -69,7 +69,7 @@ module.exports = (app) => {
 							.exec()
 							.then(
 								function(){
-									res.status(200).send({'token': token, 'user': user})
+									res.status(200).send({'token': token, 'user': userToSend})
 								},
 								function(err){
 									console.log(err);
