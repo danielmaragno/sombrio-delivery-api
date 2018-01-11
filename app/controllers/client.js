@@ -13,12 +13,12 @@ module.exports = (app) => {
 	controller.createClient = function(req, res) {
 
 		const newClient = req.body.client;
-
+		
 		if(newClient && 'passwd' in newClient){
 
 			// Generate passwd hash
 			newClient.passwd = utils_auth.generatePasswordHash(newClient.passwd);
-
+			
 			(new Client(newClient))
 				.save()
 				.then(
@@ -31,7 +31,7 @@ module.exports = (app) => {
 						let error_code;
 
 						// id already exists
-						if('id' in error){
+						if(error && 'id' in error){
 							error_code = 'id_FAIL';
 							res.status(400).send(error_code);
 						}

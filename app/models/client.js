@@ -37,7 +37,7 @@ module.exports = () => {
 
 		address: {
 	        type: String,
-	        required: true
+	        // required: true
       	},
 
 		timeStamp: {
