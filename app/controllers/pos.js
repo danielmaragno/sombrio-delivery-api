@@ -64,6 +64,7 @@ module.exports = (app) => {
 		const filter = {
 			'name': true,
 			'address': true,
+			'image': true,
 			'deliveryPrice': true
 		};
 

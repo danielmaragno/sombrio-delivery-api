@@ -189,6 +189,33 @@ module.exports = function(app){
 
 	};
 
+	controller.getClientOrders = function(req, res){
+		const client_id = req.body.client.id;
+
+		const filter = {
+			"_id": true,
+			"status": true,
+			"total_price": true,
+			"timeStamp": true,
+			"total_items": true
+		}
+
+		Order
+			.find({"client_id": client_id}, filter)
+			.sort({"timeStamp": -1})
+			.limit(10)
+			.exec()
+			.then(
+				function(orders){
+					res.status(200).send(orders);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500)
+				}
+			)
+	};
+
 	return controller;
 
 };
