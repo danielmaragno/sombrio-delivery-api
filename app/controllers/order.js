@@ -65,29 +65,40 @@ module.exports = function(app){
 						}
 
 						// Create Order[items] array
+						let missIdFlag = false; // avoid non-zero exit code
 						order.items = items_list.map(function(i){
-							
-							order.total_price += (item_map[i.id].price * i.qtd);
-							order.total_items += i.qtd;
 
-							return {
-								'name': item_map[i.id].name,
-								'price_un': item_map[i.id].price,
-								'qtd': i.qtd
-							};
+							if((i._id in item_map) && !missIdFlag){
+								order.total_price += (item_map[i._id].price * i.qtd);
+								order.total_items += i.qtd;
+
+								return {
+									'name': item_map[i._id].name,
+									'price_un': item_map[i._id].price,
+									'qtd': i.qtd
+								};
+							}
+							else {
+								missIdFlag = true;
+							}
 						});
 
-						(new Order(order))
-							.save()
-							.then(
-								function(){
-									res.sendStatus(200);
-								},
-								function(err){
-									console.log(err);
-									res.sendStatus(500);
-								}
-							)
+						if(missIdFlag)
+							res.sendStatus(400);
+
+						else{
+							(new Order(order))
+								.save()
+								.then(
+									function(){
+										res.sendStatus(200);
+									},
+									function(err){
+										console.log(err);
+										res.sendStatus(500);
+									}
+								)
+						}
 					
 					} // internal else
 
