@@ -33,6 +33,8 @@ module.exports = () => {
 
 		image: String,
 
+		formasPagamento: [String],
+
 		timeStamp: {
 			type: Date,
 			default: Date.now

@@ -19,7 +19,8 @@ module.exports = (app) => {
 			'address': true,
 			'timeStamp': true,
 			'deliveryPrice': true,
-			'image': true
+			'image': true,
+			'formasPagamento': true
 		};
 
 		findPos(res, id, filter);
@@ -35,6 +36,8 @@ module.exports = (app) => {
 
 		if('deliveryPrice' in required_data)
 			data['deliveryPrice'] = required_data['deliveryPrice'];
+		if('formasPagamento' in required_data)
+			data['formasPagamento'] = required_data['formasPagamento'];
 
 		Pos
 			.update(
@@ -65,7 +68,8 @@ module.exports = (app) => {
 			'name': true,
 			'address': true,
 			'image': true,
-			'deliveryPrice': true
+			'deliveryPrice': true,
+			'formasPagamento': true
 		};
 
 		findPos(res, id, filter);
