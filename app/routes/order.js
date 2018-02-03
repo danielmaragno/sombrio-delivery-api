@@ -8,6 +8,10 @@ module.exports = (app) => {
 	app.route('/pos/:pos_id/order')
 
 		.post(session.checkLoginClient, controller.findPos, controller.createOrder)
+		;
+
+	app.route('/client/orders')
+		
 		.get(session.checkLoginClient, controller.getClientOrders)
 		;
 

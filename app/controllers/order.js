@@ -208,7 +208,9 @@ module.exports = function(app){
 			"status": true,
 			"total_price": true,
 			"timeStamp": true,
-			"total_items": true
+			"total_items": true,
+			"items": true,
+			"pos_comentario": true
 		}
 
 		Order
