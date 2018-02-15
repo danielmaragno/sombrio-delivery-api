@@ -30,6 +30,8 @@ module.exports = () => {
 		cnpj: String,
 
 		address: String,
+		
+		phone: String,
 
 		image: String,
 
