@@ -39,7 +39,9 @@ module.exports = (app) => {
 		items: [{
 			name: String,
 			price_un: Number,
-			qtd: Number
+			qtd: Number,
+			observacao: String,
+			image: String
 		}],
 	
 		total_items: {

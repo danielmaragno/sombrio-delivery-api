@@ -75,7 +75,9 @@ module.exports = function(app){
 								return {
 									'name': item_map[i._id].name,
 									'price_un': item_map[i._id].price,
-									'qtd': i.qtd
+									'qtd': i.qtd,
+									'image': item_map[i._id].image,
+									'observacao': i.observacao
 								};
 							}
 							else {

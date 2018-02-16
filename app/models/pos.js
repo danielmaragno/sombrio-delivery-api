@@ -35,6 +35,8 @@ module.exports = () => {
 
 		image: String,
 
+		open: Boolean,
+
 		formasPagamento: [String],
 
 		timeStamp: {
