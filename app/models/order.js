@@ -16,6 +16,11 @@ module.exports = (app) => {
 			required: true
 		},
 
+		pos_name: {
+			type: String,
+			required: true
+		},
+
 		pos_comentario: {
 			type: String,
 			default: ""

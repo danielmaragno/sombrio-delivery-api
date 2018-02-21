@@ -42,6 +42,7 @@ module.exports = function(app){
 
 			order.deliveryPrice  = pos.deliveryPrice;
 			order.pos_id 		 = pos.id;
+			order.pos_name		 = pos.name;
 			order.client_id 	 = client.id;
 			order.client_name 	 = client.name;
 			order.client_address = client.address;
@@ -212,7 +213,9 @@ module.exports = function(app){
 			"timeStamp": true,
 			"total_items": true,
 			"items": true,
-			"pos_comentario": true
+			"pos_comentario": true,
+			"deliveryPrice": true,
+			"pos_name": true
 		}
 
 		Order
