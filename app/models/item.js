@@ -23,6 +23,8 @@ module.exports = () => {
 				required: true
 			},
 
+			info: String,
+
 			image: String,
 
 			// price in BRL cents

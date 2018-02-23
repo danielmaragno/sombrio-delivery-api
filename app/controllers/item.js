@@ -13,7 +13,7 @@ module.exports = (app) => {
 
 		Item
 			.findOne({"pos_id": pos_id})
-			.sort({"sort": 1})
+			// .sort({"sort": 1})
 			.exec()
 			.then(
 				function(items){
