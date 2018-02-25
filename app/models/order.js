@@ -43,6 +43,7 @@ module.exports = (app) => {
 
 		items: [{
 			name: String,
+			info: String,
 			price_un: Number,
 			qtd: Number,
 			observacao: String,
@@ -55,6 +56,12 @@ module.exports = (app) => {
 		},
 
 		formaPagamento: String,
+		
+		// Troco
+		change: {
+			type: Number,
+			default: 0
+		},
 
 		observacao: String,
 		

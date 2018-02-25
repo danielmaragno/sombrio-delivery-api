@@ -75,6 +75,7 @@ module.exports = function(app){
 
 								return {
 									'name': item_map[i._id].name,
+									'info': item_map[i._id].info,
 									'price_un': item_map[i._id].price,
 									'qtd': i.qtd,
 									'image': item_map[i._id].image,
