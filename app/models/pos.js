@@ -27,6 +27,8 @@ module.exports = () => {
       	// General info
 		name: String,
 
+		operatingTime: String,
+
 		cnpj: String,
 
 		address: String,

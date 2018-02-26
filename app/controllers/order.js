@@ -203,6 +203,24 @@ module.exports = function(app){
 			) 
 
 	};
+	
+	controller.getClientSingleOrderStatus = function(req, res) {
+		const id = req.params.order_id;
+		const client_id = req.body.client.id;
+
+		Order
+			.findOne({"_id": id, "client_id": client_id},{'_id': 1, 'status': 1})
+			.exec()
+			.then(
+				function(order){
+					res.status(200).send(order);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);	
+				}
+			)
+	}
 
 	controller.getClientOrders = function(req, res){
 		const client_id = req.body.client.id;
@@ -234,6 +252,7 @@ module.exports = function(app){
 				}
 			)
 	};
+
 
 	return controller;
 

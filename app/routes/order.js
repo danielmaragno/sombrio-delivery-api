@@ -30,6 +30,7 @@ module.exports = (app) => {
 	app.route('/order/:order_id/status')
 		
 		.put(session.checkLoginPos, controller.updateStatus)
+		.get(session.checkLoginClient, controller.getClientSingleOrderStatus)
 		;
 
 };

@@ -22,6 +22,7 @@ module.exports = (app) => {
 			'phone': true,
 			'image': true,
 			'formasPagamento': true,
+			'operatingTime': true,
 			'open': true
 		};
 
@@ -42,6 +43,8 @@ module.exports = (app) => {
 			data['formasPagamento'] = required_data['formasPagamento'];
 		if('phone' in required_data)
 			data['phone'] = required_data['phone'];
+		if('operatingTime' in required_data)
+			data['operatingTime'] = required_data['operatingTime'];
 		if('open' in required_data)
 			data['open'] = required_data['open'];
 
@@ -76,6 +79,7 @@ module.exports = (app) => {
 			'image': true,
 			'deliveryPrice': true,
 			'formasPagamento': true,
+			'operatingTime': true,
 			'phone': true,
 			'open': true
 		};
