@@ -1,10 +1,13 @@
 
+// Utils One Signal Notification
+const utils_notification = require("../../utils/oneSignalNotification.js");
 
 module.exports = function(app){
 
-	const Order = app.models.order;
-	const Item  = app.models.item;
-	const Pos 	= app.models.pos;
+	const Order  = app.models.order;
+	const Item   = app.models.item;
+	const Pos 	 = app.models.pos;
+	const Client = app.models.client;
 
 	var controller = {};
 
@@ -179,30 +182,6 @@ module.exports = function(app){
 			)
  
 	};
-
-	controller.updateStatus = function(req, res){
-
-		const id  = req.params.order_id;
-		const pos = req.body.pos;
-		const data = req.body.data;
-
-		Order
-			.update(
-				{"_id": id, "pos_id": pos.id},
-				{"$set": {"status": data.status, "pos_comentario": data.pos_comentario}}
-			)
-			.exec()
-			.then(
-				function(){
-					res.sendStatus(200);
-				},
-				function(err){
-					console.log(err);
-					res.sendStatus(500);
-				}
-			) 
-
-	};
 	
 	controller.getClientSingleOrderStatus = function(req, res) {
 		const id = req.params.order_id;
@@ -253,6 +232,43 @@ module.exports = function(app){
 			)
 	};
 
+
+	controller.updateStatus = function(req, res){
+
+		const id  = req.params.order_id;
+		const pos = req.body.pos;
+		const data = req.body.data;
+
+		Order
+			.findOneAndUpdate(
+				{"_id": id, "pos_id": pos.id},
+				{"$set": {"status": data.status, "pos_comentario": data.pos_comentario}},
+				function(err, order){
+					if(err) {
+						console.log(err);
+						res.sendStatus(500);
+					}
+					else {
+						res.sendStatus(200);
+						
+						// Only notify when its ["confirmed", "canceled", "on_road"]
+						if(["confirmed", "canceled", "on_road"].indexOf(data.status) >= 0){
+							prepareNotification(order, data.status);
+						}
+					}
+				}
+			)
+	};
+
+	function prepareNotification(order, status) {
+		Client
+			.findOne({"id": order.client_id},{'id':1, 'player_idList': 1})
+			.exec()
+			.then(function(client){
+				console.log(client);
+				utils_notification.sendNotification(client.player_idList, order, status);
+			})
+	}
 
 	return controller;
 

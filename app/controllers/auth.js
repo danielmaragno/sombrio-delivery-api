@@ -91,7 +91,8 @@ module.exports = (app) => {
 	//
 
 	controller.logout = function(req, res){
-		const token = req.headers['x-access-token'];
+		const token 	 = req.headers['x-access-token'];
+		const player_id  = req.query.player_id;
 
 		if(!token)
 			res.sendStatus(404);
@@ -105,10 +106,10 @@ module.exports = (app) => {
 				else{
 					switch(verifiedUser.scope){
 						case 'client':
-							execLogout(res, verifiedUser, token, Client);
+							execLogout(res, verifiedUser, {'tokenList': token, 'player_idList': player_id}, Client);
 							break;
 						case 'pos':
-							execLogout(res, verifiedUser, token, Pos);
+							execLogout(res, verifiedUser, {'tokenList': token}, Pos);
 							break;
 						default:
 							res.sendStatus(400);
@@ -118,9 +119,9 @@ module.exports = (app) => {
 		}
 	};
 
-	function execLogout(res, verifiedUser, token, Collection){
+	function execLogout(res, verifiedUser, pullData, Collection){
 		Collection
-			.update({'_id': verifiedUser._id},{"$pull": {'tokenList': token}})
+			.update({'_id': verifiedUser._id},{"$pull": pullData})
 			.exec()
 			.then(
 				function(){

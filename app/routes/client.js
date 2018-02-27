@@ -12,4 +12,8 @@ module.exports = (app) => {
 		.put(session.checkLoginClient, controller.updateClient)
 		.post(controller.createClient)
 		;
+
+	app.route('/client/player_id')
+
+		.post(session.checkLoginClient, controller.pushPlayerId)
 };

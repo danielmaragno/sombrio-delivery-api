@@ -101,6 +101,28 @@ module.exports = (app) => {
 			)
 	};
 
+	controller.pushPlayerId = function(req, res){
+		
+		const id 		= req.body.client.id;
+		const player_id = req.body.player_id;
+
+		Client
+			.update(
+				{'id': id},
+				{'$addToSet': {'player_idList': player_id}}
+			)
+			.exec()
+			.then(
+				function() {
+					res.sendStatus(200);
+				},
+				function(err) {
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+	}
+
 	return controller;
 
 };
