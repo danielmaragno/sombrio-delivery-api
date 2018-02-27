@@ -265,7 +265,7 @@ module.exports = function(app){
 			.findOne({"id": order.client_id},{'id':1, 'player_idList': 1})
 			.exec()
 			.then(function(client){
-				console.log(client);
+				
 				utils_notification.sendNotification(client.player_idList, order, status);
 			})
 	}
