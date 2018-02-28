@@ -6,3 +6,6 @@ node_modules
 
 # public
 public/
+
+# Ignore test scripts
+test-*
