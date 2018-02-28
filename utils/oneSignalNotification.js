@@ -5,7 +5,7 @@ const ONE_SIGNAL_APP_ID = "ed0c28b1-1b77-4ce8-b8eb-edaf3664dc50"
 
 exports.sendNotification = function(player_idList, order, status) {
 	
-	const message = prepareMessage(order, status);
+	const m = prepareMessage(order, status);
 
 	request.post(
 		ONE_SIGNAL_URL,
@@ -13,8 +13,9 @@ exports.sendNotification = function(player_idList, order, status) {
 			json: {
 				"app_id": ONE_SIGNAL_APP_ID,
 				"include_player_ids": player_idList,
-				"headings":{"en": "Sombrio Delivery", "pt": "Sombrio Delivery"},
-				"contents": {"en": message, "pt": message}
+				"headings":{"en": order.pos_name, "pt": order.pos_name},
+				"contents": {"en": m.message, "pt": m.message},
+				"android_accent_color": "27ae60"
 			}
 		}
 	);
@@ -22,21 +23,30 @@ exports.sendNotification = function(player_idList, order, status) {
 }
 
 function prepareMessage(order, status) {
-	let message = messageStatusMap[status];
-		// message = message.replace('{id}', order._id.slice(-4));
+	let m = messageStatusMap[status];
+		
 	
 	if(status === 'confirmed'){
-		message = message.replace('{pos}', order.pos_name);
+		m.message = m.message.replace('{pos}', order.pos_name);
 	}
 	else if (status === 'canceled'){
-		message = message.replace('{pos}', order.pos_name);	
+		m.message = m.message.replace('{pos}', order.pos_name);	
 	}
 
-	return message;
+	return m;
 }
 
 const messageStatusMap = {
-	"confirmed" : "Seu pedido {id} foi CONFIRMADO por {pos} e já está sendo preparado.", 
-	"canceled": "Seu pedido {id} from CANCELADO por {pos}, confira a justificativa da loja no card do pedido.", 
-	"on_road": "Seu pedido {id} SAIU PARA ENTREGA, em breve estará em sua casa.", 
+	"confirmed" : {
+		"message": "Seu pedido foi APROVADO por {pos} e já está sendo preparado.",
+		"header": "Pedido Aprovado"
+	}, 
+	"canceled": {
+		"message": "Seu pedido foi CANCELADO por {pos}, confira a justificativa da loja no card do pedido.",
+		"header": "Pedido Cancelado"	
+	},
+	"on_road": {
+		"message": "Seu pedido SAIU PARA ENTREGA, em breve estará em sua casa.", 
+		"header": "Pedido Saiu para Entrega"
+	}
 };
