@@ -15,7 +15,13 @@ exports.sendNotification = function(player_idList, order, status) {
 				"include_player_ids": player_idList,
 				"headings":{"en": order.pos_name, "pt": order.pos_name},
 				"contents": {"en": m.message, "pt": m.message},
-				"android_accent_color": "27ae60"
+				"android_accent_color": "27ae60",
+
+				"android_group": "order",
+				"android_group_message": {
+					"en": "$[notif_count] novas mensagens",
+					"pt": "$[notif_count] novas mensagens"
+				}
 			}
 		}
 	);
@@ -26,23 +32,23 @@ function prepareMessage(order, status) {
 	let m = messageStatusMap[status];
 		
 	
-	if(status === 'confirmed'){
-		m.message = m.message.replace('{pos}', order.pos_name);
-	}
-	else if (status === 'canceled'){
-		m.message = m.message.replace('{pos}', order.pos_name);	
-	}
+	// if(status === 'confirmed'){
+	// 	m.message = m.message.replace('{pos}', order.pos_name);
+	// }
+	// else if (status === 'canceled'){
+	// 	m.message = m.message.replace('{pos}', order.pos_name);	
+	// }
 
 	return m;
 }
 
 const messageStatusMap = {
 	"confirmed" : {
-		"message": "Seu pedido foi APROVADO por {pos} e já está sendo preparado.",
+		"message": "Seu pedido foi APROVADO e já está sendo preparado.",
 		"header": "Pedido Aprovado"
 	}, 
 	"canceled": {
-		"message": "Seu pedido foi CANCELADO por {pos}, confira a justificativa da loja no card do pedido.",
+		"message": "Seu pedido foi CANCELADO, confira a justificativa da loja no card do pedido.",
 		"header": "Pedido Cancelado"	
 	},
 	"on_road": {
