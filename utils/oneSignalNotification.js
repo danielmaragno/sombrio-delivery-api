@@ -21,7 +21,12 @@ exports.sendNotification = function(player_idList, order, status) {
 				"android_group_message": {
 					"en": "$[notif_count] novas mensagens",
 					"pt": "$[notif_count] novas mensagens"
-				}
+				},
+
+				// "data": {
+				// 	"order_id": order._id,
+				// 	"status": status
+				// }
 			}
 		}
 	);
