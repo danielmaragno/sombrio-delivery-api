@@ -1,8 +1,9 @@
 
-
+var randomstring = require("randomstring");
 
 // Utils Auth 
 const utils_auth = require("../../utils/auth.js");
+const utils_email = require("../../utils/email.js");
 
 module.exports = (app) => {
 
@@ -42,7 +43,7 @@ module.exports = (app) => {
 
 	function execLogin(res, info, Collection){
 		Collection
-			.findOne({'id': info.id})
+			.findOne({'id': info.id, "isActive": true})
 			.exec()
 			.then(
 				function(user){
@@ -133,6 +134,65 @@ module.exports = (app) => {
 				}
 			)
 	};
+
+	//
+	//	Confirm Account
+	//
+
+	controller.confirmAccount = function(req, res){
+		
+		const confirmEmailHash = req.query.code;
+
+		Client
+			.findOneAndUpdate(
+				{"confirmEmailHash": confirmEmailHash},
+				{"$set": {"isActive": true}, "$unset": {"confirmEmailHash": true}},
+				
+				function(err, client){
+					if(!err && client) {
+						let message  = "Parabéns, sua conta foi confirmada.\n";
+							message += "Aproveite o maior portal de entregas da sua cidade.\n\n";
+							message += "Faça o login e boas compras :D\n\n\n";
+							message += "Equipe Santa Catarina Delivery";
+
+						res.status(200).send(message);
+					}
+					else {
+						res.sendStatus(401);
+					}
+				}
+			)
+	}
+
+	controller.recoveryPasswd = function(req, res){
+
+		const id = req.query.id;
+
+		const newPasswd 	= randomstring.generate(8);
+		const newPasswdHash = utils_auth.generatePasswordHash(newPasswd);
+
+		Client
+			.findOneAndUpdate(
+				{'id': id},
+				{'$set': {passwd: newPasswdHash}},
+
+				function(err, client) {
+					if(err){
+						console.log(err);
+						res.sendStatus(500);
+					}
+					else if(!client){
+						res.sendStatus(404);
+					}
+					else {
+						res.sendStatus(200);
+						utils_email.sendPasswdRecovyEmail(id, newPasswd);
+					}
+				}
+			)
+
+
+	}
 
 	return controller;
 

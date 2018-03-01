@@ -56,7 +56,11 @@ module.exports = () => {
 		// Control flag
 		isActive: {
 			type: Boolean,
-			default: true
+			default: false
+		},
+
+		confirmEmailHash: {
+			type: String
 		}
 
 	});

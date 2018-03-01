@@ -2,6 +2,7 @@
 
 // Utils Auth 
 const utils_auth = require("../../utils/auth.js");
+const utils_email = require("../../utils/email.js");
 
 module.exports = (app) => {
 
@@ -17,7 +18,10 @@ module.exports = (app) => {
 		if(newClient && 'passwd' in newClient){
 
 			// Generate passwd hash
-			newClient.passwd = utils_auth.generatePasswordHash(newClient.passwd);
+			newClient.passwd 			= utils_auth.generatePasswordHash(newClient.passwd);
+			// Uses the same passwd hash just as pivot for account confirmation
+			// confirmEmailHash will be deleted as soon as account was confirmed by the client
+			newClient.confirmEmailHash	= newClient.passwd;
 			
 			(new Client(newClient))
 				.save()
@@ -25,6 +29,7 @@ module.exports = (app) => {
 					function(data) {
 						// console.log(data);
 						res.sendStatus(200);
+						utils_email.sendConfirmEmail(newClient.id, newClient.confirmEmailHash);
 					},
 					function(err){
 						const error = err.errors;
@@ -80,9 +85,14 @@ module.exports = (app) => {
 		const id = req.body.client.id;
 
 		const required_data = req.body.required_data;
-		var data = {
-			'address': required_data['address']
-		};
+		var data = {};
+
+		if('address' in required_data){
+			data['address'] = required_data['address'];
+		}
+		if('passwd' in required_data){
+			data['passwd'] = required_data['passwd'];	
+		}
 
 		Client
 			.update(
