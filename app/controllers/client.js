@@ -91,7 +91,7 @@ module.exports = (app) => {
 			data['address'] = required_data['address'];
 		}
 		if('passwd' in required_data){
-			data['passwd'] = required_data['passwd'];	
+			data['passwd'] = utils_auth.generatePasswordHash(required_data['passwd']);
 		}
 
 		Client
