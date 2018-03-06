@@ -69,11 +69,47 @@ module.exports = (app) => {
 
 	};
 
-	controller.findSpecificPosClient = (req, res) =>{
+	controller.finPossByCategory = (req, res) => {
+		
+		const city 		= req.params.city;
+		const category  = req.query.category;
+
+		const filter = {
+			'id': true,
+			'name': true,
+			'address': true,
+			'image': true,
+			'deliveryPrice': true,
+			'operatingTime': true,
+			'phone': true,
+			'open': true,
+			'category': true
+		};
+
+		Pos
+			.find(
+				{city: city, category: category, isActive: true},
+				filter
+			)
+			.sort({"open": -1})
+			.exec()
+			.then(
+				(poss) => {
+					res.status(200).send(poss);
+				},
+				(err) => {
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+	};
+
+	controller.findSpecificPosClient = (req, res) => {
 
 		let id = req.params.id;
 
 		const filter = {
+			'id': true,
 			'name': true,
 			'address': true,
 			'image': true,
@@ -81,7 +117,8 @@ module.exports = (app) => {
 			'formasPagamento': true,
 			'operatingTime': true,
 			'phone': true,
-			'open': true
+			'open': true,
+			'category': true
 		};
 
 		findPos(res, id, filter);

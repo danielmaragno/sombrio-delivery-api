@@ -27,6 +27,13 @@ module.exports = () => {
       	// General info
 		name: String,
 
+		category: {
+			type: String,
+			enum: ["utilidades", "farmacia", "alimentacao", "bebidas"]
+		},
+
+		city: String,
+
 		operatingTime: String,
 
 		cnpj: String,

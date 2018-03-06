@@ -18,4 +18,9 @@ module.exports = (app) => {
 
 		.get(session.checkLoginClient, controller.findSpecificPosClient)
 		;
+
+	app.route('/city/:city/pos')
+
+		.get(session.checkLoginClient, controller.finPossByCategory)
+		;
 }
