@@ -42,8 +42,7 @@ function hostUrl() {
 	let HOST  = process.env.HTTP_TYPE;
 		HOST += "://";
 		HOST += process.env.HOST;
-		HOST += ":";
-		HOST += process.env.PORT;
+		HOST += "/api/";
 
 	return HOST;
 };

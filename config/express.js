@@ -17,7 +17,7 @@ module.exports = function(){
 
 	app.use(bodyParser.json());
 
-	app.use(express.static(path.join(__dirname, '../public')));
+	// app.use(express.static(path.join(__dirname, '../public')));
 
 	// consign({cwd: __dirname + '/../app'})
 	consign({cwd: 'app'})
