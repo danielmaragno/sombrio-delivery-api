@@ -43,7 +43,7 @@ exports.generateToken = function(user) {
     // Read secret key
     var secret = readTokenSecret();
     // generate token by User userId and email
-    var token = jwt.sign({ "_id": user._id, "scope": user.scope }, secret);
+    var token = jwt.sign({ "id": user.id, "scope": user.scope }, secret);
 
     return token;
 };

@@ -19,6 +19,7 @@ module.exports = (app) => {
 
 		else {
 			utils_auth.decodeToken(token, (err, user) => {
+				console.log(user);
 				if(user.scope === 'client'){
 					findUser(req, res, next, Client, user.scope, token);
 				}
@@ -42,6 +43,7 @@ module.exports = (app) => {
 		}
 	};
 
+
 	controller.checkLoginClient = (req, res, next) => {
 		const token = req.headers['x-access-token'];
 
@@ -50,6 +52,30 @@ module.exports = (app) => {
 
 		else{
 			findUser(req, res, next, Client, 'client', token);
+		}
+	};
+	
+	// check just token, do not go to DB
+	controller.checkLoginPosByToken = (req, res, next) => {
+		const token = req.headers['x-access-token'];
+
+		if(!token)
+			res.sendStatus(401);
+
+		else{
+			findUserIdInToken(token, 'pos', req, res, next);
+		}
+	};
+
+	// check just token, do not go to DB
+	controller.checkLoginClientByToken = (req, res, next) => {
+		const token = req.headers['x-access-token'];
+
+		if(!token)
+			res.sendStatus(401);
+
+		else{
+			findUserIdInToken(token, 'client', req, res, next);
 		}
 	};
 
@@ -78,6 +104,25 @@ module.exports = (app) => {
 				}
 			)
 	};
+
+	function findUserIdInToken(token, scope, req, res, next) {
+		utils_auth.decodeToken(token, (err, user) => {
+			
+			if(err) {
+				console.log(err);
+				res.sendStatus(500);
+			}
+			else if(scope === user.scope) {
+				req.body[scope] = user;
+				next();
+			}
+			else {
+				res.sendStatus(403);
+			}
+			
+
+		});
+	}
 
 	return controller;
 }

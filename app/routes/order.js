@@ -17,7 +17,7 @@ module.exports = (app) => {
 
 	app.route('/order')
 
-		.get(session.checkLoginPos, controller.callOrders)
+		.get(session.checkLoginPosByToken, controller.callOrders)
 		;
 
 
