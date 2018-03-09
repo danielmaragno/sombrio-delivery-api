@@ -42,7 +42,7 @@ function hostUrl() {
 	let HOST  = process.env.HTTP_TYPE;
 		HOST += "://";
 		HOST += process.env.HOST;
-		HOST += "/api/";
+		HOST += "/api";
 
 	return HOST;
 };
@@ -60,7 +60,7 @@ exports.sendConfirmEmail = function(receiver, hash){
 		message += "\n";
 		message += hostUrl()+"/auth/account-confirm?code="+hash+"\n";
 		message += "\n\n";
-		message += "Equipe Santa Catarina Delivery."
+		message += "Equipe Smart City Delivery."
 
 	const mailOptions = configMailOptions(receiver, subject, message);
 
@@ -77,7 +77,7 @@ exports.sendPasswdRecovyEmail = function(receiver, passwd) {
 		message += "Parece boa? Você pode continuar utilizando ela, ou então trocá-la por outra do seu gosto no App.\n";
 		message += "Fique à vontade e boas compras :)\n";
 		message += "\n\n";
-		message += "Equipe Santa Catarina Delivery.";
+		message += "Equipe Smart City Delivery.";
 
 	const mailOptions = configMailOptions(receiver, subject, message);
 
