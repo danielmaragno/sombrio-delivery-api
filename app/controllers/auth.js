@@ -110,7 +110,7 @@ module.exports = (app) => {
 							execLogout(res, verifiedUser, {'tokenList': token, 'player_idList': player_id}, Client);
 							break;
 						case 'pos':
-							execLogout(res, verifiedUser, {'tokenList': token}, Pos);
+							execLogout(res, verifiedUser, {'tokenList': token, 'player_idList': player_id}, Pos);
 							break;
 						default:
 							res.sendStatus(400);
@@ -122,7 +122,7 @@ module.exports = (app) => {
 
 	function execLogout(res, verifiedUser, pullData, Collection){
 		Collection
-			.update({'_id': verifiedUser._id},{"$pull": pullData})
+			.update({'id': verifiedUser.id},{"$pull": pullData})
 			.exec()
 			.then(
 				function(){
