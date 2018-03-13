@@ -232,6 +232,25 @@ module.exports = function(app){
 			)
 	};
 
+	controller.CallPosOpenOrders = function(req, res) {
+		const pos = req.body.pos;
+
+		Order
+			.find({"pos_id": pos.id, "status": {"$nin": ['canceled', 'done']}})
+			.sort({"timeStamp": -1})
+			.exec()
+			.then(
+				function(orders) {
+					res.status(200).send(orders);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+
+	}
+
 
 	controller.updateStatus = function(req, res){
 

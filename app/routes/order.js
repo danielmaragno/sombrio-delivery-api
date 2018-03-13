@@ -20,6 +20,11 @@ module.exports = (app) => {
 		.get(session.checkLoginPosByToken, controller.callOrders)
 		;
 
+	app.route('/open-orders')
+
+		.get(session.checkLoginPos, controller.CallPosOpenOrders)
+		;
+
 
 	app.route('/order/:order_id')
 
