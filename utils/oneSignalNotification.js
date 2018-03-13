@@ -61,3 +61,28 @@ const messageStatusMap = {
 		"header": "Pedido Saiu para Entrega"
 	}
 };
+
+exports.sendPosOrderNotification = function(player_idList, order) {
+	request.post(
+		ONE_SIGNAL_URL,
+		{
+			json: {
+				"app_id": ONE_SIGNAL_APP_ID,
+				"include_player_ids": player_idList,
+				"headings":{"en": "NOVO PEDIDO", "pt": "NOVO PEDIDO"},
+				"contents": {"en": "Eba! Chegou um novo pedido", "pt": "Eba! Chegou um novo pedido"},
+				"android_accent_color": "27ae60",
+
+				"android_group": "new-order",
+				"android_group_message": {
+					"en": "$[notif_count] novas mensagens",
+					"pt": "$[notif_count] novas mensagens"
+				},
+
+				"data": {
+					"order": order
+				}
+			}
+		}
+	);
+}
