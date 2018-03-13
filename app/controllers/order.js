@@ -99,7 +99,7 @@ module.exports = function(app){
 								.then(
 									function(){
 										res.sendStatus(200);
-										utils_notification.sendNotification(pos.player_idList, order);
+										utils_notification.sendPosOrderNotification(pos.player_idList, order);
 									},
 									function(err){
 										console.log(err);
