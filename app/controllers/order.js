@@ -94,12 +94,13 @@ module.exports = function(app){
 							res.sendStatus(400);
 
 						else{
-							(new Order(order))
+							const newOrder = new Order(order)
+							(newOrder)
 								.save()
 								.then(
 									function(){
 										res.sendStatus(200);
-										utils_notification.sendPosOrderNotification(pos.player_idList, order);
+										utils_notification.sendPosOrderNotification(pos.player_idList, newOrder);
 									},
 									function(err){
 										console.log(err);
