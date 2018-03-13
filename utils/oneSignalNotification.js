@@ -2,6 +2,7 @@ var request = require('request');
 
 const ONE_SIGNAL_URL 	= "https://onesignal.com/api/v1/notifications" 
 const ONE_SIGNAL_APP_ID = "ed0c28b1-1b77-4ce8-b8eb-edaf3664dc50"
+const ONE_SIGNAL_POS_APP_ID = "51d265b2-175f-4541-a860-3d5048197dcb"
 
 exports.sendNotification = function(player_idList, order, status) {
 	
@@ -67,7 +68,7 @@ exports.sendPosOrderNotification = function(player_idList, order) {
 		ONE_SIGNAL_URL,
 		{
 			json: {
-				"app_id": ONE_SIGNAL_APP_ID,
+				"app_id": ONE_SIGNAL_POS_APP_ID,
 				"include_player_ids": player_idList,
 				"headings":{"en": "NOVO PEDIDO", "pt": "NOVO PEDIDO"},
 				"contents": {"en": "Eba! Chegou um novo pedido", "pt": "Eba! Chegou um novo pedido"},
