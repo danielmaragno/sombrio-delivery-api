@@ -95,7 +95,7 @@ module.exports = function(app){
 
 						else{
 							const newOrder = new Order(order)
-							(newOrder)
+							newOrder
 								.save()
 								.then(
 									function(){
