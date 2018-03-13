@@ -24,6 +24,13 @@ module.exports = () => {
 
       	tokenList: [String],
 
+      	// Identifies the devices client is logged in
+		// OneSignal notification
+		player_idList: {
+			type: [String],
+			default: []
+		},
+
       	// General info
 		name: String,
 

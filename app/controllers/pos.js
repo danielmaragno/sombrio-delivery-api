@@ -104,6 +104,27 @@ module.exports = (app) => {
 			)
 	};
 
+	controller.pushPlayerId = (req, res) => {
+		const id 		= req.body.pos.id;
+		const player_id = req.body.player_id;
+
+		Pos
+			.update(
+				{'id': id},
+				{'$addToSet': {'player_idList': player_id}}
+			)
+			.exec()
+			.then(
+				function() {
+					res.sendStatus(200);
+				},
+				function(err) {
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+	}
+
 	controller.findSpecificPosClient = (req, res) => {
 
 		let id = req.params.id;

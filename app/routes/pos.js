@@ -23,4 +23,10 @@ module.exports = (app) => {
 
 		.get(session.checkLoginClient, controller.finPossByCategory)
 		;
+
+	app.route('/pos/player_id')
+
+		.post(session.checkLoginPos, controller.pushPlayerId)
+		;
+
 }
