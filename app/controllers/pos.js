@@ -23,7 +23,8 @@ module.exports = (app) => {
 			'image': true,
 			'formasPagamento': true,
 			'operatingTime': true,
-			'open': true
+			'open': true,
+			'slogan': true
 		};
 
 		findPos(res, id, filter);
@@ -45,6 +46,9 @@ module.exports = (app) => {
 			data['phone'] = required_data['phone'];
 		if('operatingTime' in required_data)
 			data['operatingTime'] = required_data['operatingTime'];
+		if('slogan' in required_data)
+			data['slogan'] = required_data['slogan'];
+		
 		if('open' in required_data)
 			data['open'] = required_data['open'];
 
@@ -83,7 +87,8 @@ module.exports = (app) => {
 			'operatingTime': true,
 			'phone': true,
 			'open': true,
-			'category': true
+			'category': true,
+			'slogan': true
 		};
 
 		Pos
@@ -139,7 +144,8 @@ module.exports = (app) => {
 			'operatingTime': true,
 			'phone': true,
 			'open': true,
-			'category': true
+			'category': true,
+			'slogan': true
 		};
 
 		findPos(res, id, filter);

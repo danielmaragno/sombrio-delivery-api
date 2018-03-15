@@ -41,6 +41,8 @@ module.exports = () => {
 
 		city: String,
 
+		slogan: String,
+
 		operatingTime: String,
 
 		cnpj: String,
