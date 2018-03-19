@@ -1,4 +1,6 @@
 
+var fs = require('fs');
+var path = require('path');
 
 module.exports = (app) => {
 
@@ -72,6 +74,28 @@ module.exports = (app) => {
 
 
 	};
+
+	controller.uploadImage = (req, res) => {
+		const pos 		= req.body.pos;
+		const image_blob 	= req.body.image_blob;
+
+		Pos
+			.update({'id': pos.id},{'$set': {'image': image_blob}})
+			.exec()
+			.then(
+				// OK
+				() => {
+					res.sendStatus(200);
+				},
+				// Fail
+				(err) => {
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+
+		res.sendStatus(200);
+	}
 
 	controller.finPossByCategory = (req, res) => {
 		

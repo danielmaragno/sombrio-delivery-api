@@ -29,4 +29,9 @@ module.exports = (app) => {
 		.post(session.checkLoginPos, controller.pushPlayerId)
 		;
 
+	app.route('/pos/image')
+
+		.put(session.checkLoginPos, controller.uploadImage)
+		;
+
 }
