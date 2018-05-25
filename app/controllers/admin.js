@@ -30,11 +30,11 @@ module.exports = (app) => {
 						res.sendStatus(403);
 
 					// Compare passwd
-					else if(!(info.passwd ===  admin.passwd))
+					else if(!utils_auth.comparePasswords(info.passwd, admin.passwd))
 						res.sendStatus(403);
 
 					else {
-						const token = randomstring.generate(20);
+						const token = randomstring.generate(40);
 
 						Admin
 							.update({'id': admin.id},{"$push": {"tokenList": token}})
@@ -70,6 +70,27 @@ module.exports = (app) => {
 			.then(
 				function(){
 					res.sendStatus(200);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+	}
+
+	controller.checkLogedIn = function(req, res, next) {
+		
+		const token = req.headers['x-access-token'];
+
+		Admin
+			.find({'tokenList': token})
+			.exec()
+			.then(
+				function(admins){
+					if(admins.length)
+						next();
+					else
+						res.sendStatus(403);
 				},
 				function(err){
 					console.log(err);
