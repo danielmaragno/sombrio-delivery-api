@@ -9,6 +9,7 @@ const utils_auth = require("../../utils/auth.js");
 module.exports = (app) => {
 
 	const Admin = app.models.admin;
+	const Pos 	= app.models.pos;
 
 	var controller = {};
 
@@ -99,6 +100,32 @@ module.exports = (app) => {
 			)
 	}
 
+
+	//
+	//	POS Control
+	//
+
+	controller.createPos = function(req, res) {
+		let pos = new Pos(req.body.pos);
+
+		pos['scope'] 		 = 'pos';
+		pos['open'] 		 = false;
+		pos['deliveryPrice'] = 0;
+		pos['isActive']  	 = false;
+		pos['passwd'] 	 	 = utils_auth.generatePasswordHash(pos.passwd);
+		pos['timeStamp'] 	 = new Date();
+
+		pos.save(function(err){
+			if(err){
+				console.log(err);
+				res.sendStatus(500);
+			}
+			else{
+				res.sendStatus(200);
+			}
+		})
+		
+	}
 
 
 	return controller;

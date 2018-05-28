@@ -13,7 +13,7 @@ module.exports = () => {
 		// Auth info
 		id: {
 			type: String,
-			index: true,
+			unique: true,
 			required: true
 		},
 

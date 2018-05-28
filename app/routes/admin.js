@@ -14,4 +14,12 @@ module.exports = (app) => {
 	app.route('/admin/logout')
 		.get(controller.logout);
 
+
+	//
+	// POS Constrol
+	//
+
+	app.route('/admin/pos')
+		.post(controller.checkLogedIn, controller.createPos)
+
 }
