@@ -9,6 +9,7 @@ const utils_auth = require("../../utils/auth.js");
 module.exports = (app) => {
 
 	const Admin = app.models.admin;
+	const Category = app.models.category;
 	const Pos 	= app.models.pos;
 
 	var controller = {};
@@ -100,6 +101,54 @@ module.exports = (app) => {
 			)
 	}
 
+	//
+	// CATEGORY Control
+	//
+
+	controller.updateCategory = function(req, res) {
+		const category = req.body.category;
+		
+		Category
+			.update({id: category.id},{'$set': category}, {upsert: true})
+			.exec()
+			.then(
+				function() {
+					res.sendStatus(200);
+				},
+				function(err) {
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+	}
+
+	controller.deleteCategory = function(req, res) {
+		const id = req.query.id;
+
+		Category.deleteOne({id: id}, function(err){
+			if(err) {
+				console.log(err);
+				res.sendStatus(500);
+			}
+			else{
+				res.sendStatus(200);
+			}
+		})
+	}
+
+	controller.callCategories = function(req, res) {
+
+		Category.find({}).sort({sort: 1, id: -1}).exec().then(
+			function(categoryList){
+				res.send(categoryList);
+			},
+			function(err){
+				console.log(err);
+				res.sendStatus(500);
+			}
+		)
+	}
+
 
 	//
 	//	POS Control
@@ -124,7 +173,47 @@ module.exports = (app) => {
 				res.sendStatus(200);
 			}
 		})
+	}
+
+	// GET array with distinct citie names
+	controller.distinctCities = function(req, res) {
+		Pos
+			.distinct('city')
+			.exec()
+			.then(
+				function(cities){
+					res.send(cities).status(200);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+	}
+
+	// GET Poss by citie
+	controller.getPossByCity = function(req, res) {
+		const city = req.params.city;
 		
+		const filter = {
+			id: true,
+			name: true,
+			image: true
+		} 
+
+		Pos
+			.find({"city": city}, filter)
+			.sort({"isActive": -1})
+			.exec()
+			.then(
+				function(poss){
+					res.send(poss).status(200);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
 	}
 
 

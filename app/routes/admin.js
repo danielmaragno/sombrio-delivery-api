@@ -16,10 +16,26 @@ module.exports = (app) => {
 
 
 	//
-	// POS Constrol
+	// CATEGORY Control
+	//
+
+	app.route('/admin/category')
+		.get(controller.checkLogedIn, controller.callCategories)
+		.put(controller.checkLogedIn, controller.updateCategory)
+		.delete(controller.checkLogedIn, controller.deleteCategory)
+
+	//
+	// POS Control
 	//
 
 	app.route('/admin/pos')
 		.post(controller.checkLogedIn, controller.createPos)
+
+	app.route('/admin/pos/city/:city')
+		// GET Poss by city name
+		.get(controller.checkLogedIn, controller.getPossByCity)
+
+	app.route('/admin/pos/distinct-cities')
+		.get(controller.checkLogedIn, controller.distinctCities)
 
 }
