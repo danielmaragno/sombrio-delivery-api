@@ -34,10 +34,10 @@ module.exports = () => {
       	// General info
 		name: String,
 
-		category: {
+		category: [{
 			type: String,
 			enum: ["utilidades", "farmacia", "alimentacao", "bebidas"]
-		},
+		}],
 
 		city: String,
 
