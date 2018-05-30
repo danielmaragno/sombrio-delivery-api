@@ -138,7 +138,7 @@ module.exports = (app) => {
 
 	controller.callCategories = function(req, res) {
 
-		Category.find({}).sort({sort: 1, id: -1}).exec().then(
+		Category.find({}).sort({sort: 1, _id: 1}).exec().then(
 			function(categoryList){
 				res.send(categoryList);
 			},
