@@ -191,7 +191,7 @@ module.exports = (app) => {
 			)
 	}
 
-	// GET Poss by citie
+	// GET Poss by city
 	controller.getPossByCity = function(req, res) {
 		const city = req.params.city;
 		
@@ -216,6 +216,57 @@ module.exports = (app) => {
 			)
 	}
 
+	// GET Pos by id
+	controller.getPosById = function(req, res) {
+		const id = req.params.id;
+
+		const filter = {
+			_id: false,
+			__v: false,
+			scope: false,
+			passwd: false,
+			tokenList: false,
+			player_idList: false
+		}
+
+		Pos
+			.findOne({id: id}, filter)
+			.exec()
+			.then(
+				function(pos){
+					res.send(pos).status(200);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+	}
+
+	// UPDATE Pos [isActive, Category]
+	controller.updatePos = function(req, res) {
+		const id  = req.params.id;
+		const pos = req.body.pos;
+		const values = {};
+
+		if('isActive' in pos)
+			values['isActive'] = pos.isActive;
+		if('category' in pos)
+			values['category'] = pos.category;
+
+		Pos
+			.update({id: id},{'$set': values})
+			.exec()
+			.then(
+				function(){
+					res.sendStatus(200);
+				},
+				function(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+			)
+	}
 
 	return controller;
 
