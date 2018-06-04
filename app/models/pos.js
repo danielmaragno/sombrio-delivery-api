@@ -65,6 +65,10 @@ module.exports = () => {
 
 		deliveryPrice: Number,
 
+		orderRatio: {
+			type: Number,
+			default: 80
+		},
 
 		// Control flag
 		isActive: Boolean

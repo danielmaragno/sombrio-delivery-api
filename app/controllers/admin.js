@@ -253,6 +253,8 @@ module.exports = (app) => {
 			values['isActive'] = pos.isActive;
 		if('category' in pos)
 			values['category'] = pos.category;
+		if('orderRatio' in pos)
+			values['orderRatio'] = pos.orderRatio;
 
 		Pos
 			.update({id: id},{'$set': values})

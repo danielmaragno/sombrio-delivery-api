@@ -46,6 +46,7 @@ module.exports = function(app){
 			order.deliveryPrice  = pos.deliveryPrice;
 			order.pos_id 		 = pos.id;
 			order.pos_name		 = pos.name;
+			order.orderRatio	 = pos.orderRatio;
 			order.client_id 	 = client.id;
 			order.client_name 	 = client.name;
 			order.client_address = client.address;

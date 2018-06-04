@@ -76,6 +76,10 @@ module.exports = (app) => {
 			type: String,
 			enum: ["requested", "confirmed", "canceled", "on_road", "done"],
 			default: "requested"
+		},
+
+		orderRatio: {
+			type: Number
 		}
 
 
