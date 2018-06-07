@@ -23,6 +23,9 @@ module.exports = (app) => {
 			// confirmEmailHash will be deleted as soon as account was confirmed by the client
 			newClient.confirmEmailHash	= newClient.passwd;
 			
+			// Initialize address list
+			newClient.address			= [];
+
 			(new Client(newClient))
 				.save()
 				.then(

@@ -37,8 +37,12 @@ module.exports = (app) => {
 		},
 
 		client_address: {
-			type: String,
-			required: true
+			cidade: String,
+			bairro: String,
+			rua: String,
+			numero: String,
+			complemento: String,
+			referencia: String
 		},
 
 		items: [{

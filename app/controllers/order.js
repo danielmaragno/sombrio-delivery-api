@@ -49,7 +49,7 @@ module.exports = function(app){
 			order.orderRatio	 = pos.orderRatio;
 			order.client_id 	 = client.id;
 			order.client_name 	 = client.name;
-			order.client_address = client.address;
+			// order.client_address = client.address;
 			
 			Item.findOne({"pos_id": pos.id}).exec().then(
 
@@ -216,7 +216,8 @@ module.exports = function(app){
 			"items": true,
 			"pos_comentario": true,
 			"deliveryPrice": true,
-			"pos_name": true
+			"pos_name": true,
+			"client_address": true
 		}
 
 		Order

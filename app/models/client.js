@@ -42,10 +42,14 @@ module.exports = () => {
 	        required: true
 	    },
 
-		address: {
-	        type: String,
-	        // required: true
-      	},
+		address: [{
+			cidade: String,
+			bairro: String,
+			rua: String,
+			numero: String,
+			complemento: String,
+			referencia: String
+		}],
 
 		timeStamp: {
 			type: Date,
