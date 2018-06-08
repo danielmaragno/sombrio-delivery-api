@@ -8,9 +8,10 @@ const utils_auth = require("../../utils/auth.js");
 
 module.exports = (app) => {
 
-	const Admin = app.models.admin;
-	const Category = app.models.category;
-	const Pos 	= app.models.pos;
+	const Admin 	= app.models.admin;
+	const Category 	= app.models.category;
+	const Pos 		= app.models.pos;
+	const Order 	= app.models.order;
 
 	var controller = {};
 
@@ -268,6 +269,56 @@ module.exports = (app) => {
 					res.sendStatus(500);
 				}
 			)
+	}
+
+	//
+	// ORDERS control
+	//
+
+	controller.financialByMonth = function(req, res) {
+		const pos_id = req.params.pos_id;
+		const month  = req.params.month;
+
+		Order.aggregate([
+			{
+			  	"$project": {
+					orderRatio: "$orderRatio",
+					pos_id: "$pos_id",
+					status: "$status",
+					year: { $year: "$timeStamp" },
+		           	month: { $month: "$timeStamp" },
+		            amount: {$cond : [{$eq: ['$status', 'canceled']}, 0 , "$orderRatio"]},
+		           	countValid: {$cond : [{$eq: ['$status', 'canceled']}, 0 , 1]},
+		           	countInvalid: {$cond : [{$eq: ['$status', 'canceled']}, 1 , 0]}
+			  	}
+			},
+			{
+			  	"$match": {
+			  		pos_id: pos_id,
+					year: parseInt(month.split('-')[0]),
+					month: parseInt(month.split('-')[1])
+			  	}
+			},
+			{
+				"$group": {
+					_id: "$orderRatio",
+					totalAmount: {$sum: "$amount"},
+					countValid: {$sum: "$countValid"},
+					countInvalid: {$sum: "$countInvalid"}
+				}
+			}
+		],
+		
+			function(err, result){
+				if(err){
+					console.log(err);
+					res.sendStatus(500);
+				}
+				else{
+					res.send(result).status(200);
+				}
+			}
+		)
 	}
 
 	return controller;

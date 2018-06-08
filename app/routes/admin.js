@@ -35,6 +35,9 @@ module.exports = (app) => {
 		.get(controller.checkLogedIn, controller.getPosById)
 		.put(controller.checkLogedIn, controller.updatePos)
 
+	app.route('/admin/pos/pos/:pos_id/month/:month')
+		.get(controller.checkLogedIn, controller.financialByMonth)
+
 	app.route('/admin/pos/city/:city')
 		// GET Poss by city name
 		.get(controller.checkLogedIn, controller.getPossByCity)
