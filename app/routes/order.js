@@ -38,4 +38,7 @@ module.exports = (app) => {
 		.get(session.checkLoginClient, controller.getClientSingleOrderStatus)
 		;
 
+	app.route('/order-financial-by-month/:month')
+		.get(session.checkLoginPos, controller.financialByMonth)
+
 };
