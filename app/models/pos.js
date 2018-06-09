@@ -70,6 +70,8 @@ module.exports = () => {
 			default: 80
 		},
 
+		isOn: Boolean,
+
 		// Control flag
 		isActive: Boolean
 

@@ -12,6 +12,15 @@ module.exports = (app) => {
 		.put(session.checkLoginPos, controller.updatePosPos)
 		;
 
+	app.route('/pos/player_id')
+
+		.post(session.checkLoginPos, controller.pushPlayerId)
+		;
+
+	app.route('/pos/image')
+
+		.put(session.checkLoginPos, controller.uploadImage)
+		;
 
 	// Route for CLIENT
 	app.route('/pos/:id')
@@ -24,14 +33,5 @@ module.exports = (app) => {
 		.get(session.checkLoginClient, controller.finPossByCategory)
 		;
 
-	app.route('/pos/player_id')
-
-		.post(session.checkLoginPos, controller.pushPlayerId)
-		;
-
-	app.route('/pos/image')
-
-		.put(session.checkLoginPos, controller.uploadImage)
-		;
 
 }

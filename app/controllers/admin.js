@@ -161,7 +161,8 @@ module.exports = (app) => {
 		pos['scope'] 		 = 'pos';
 		pos['open'] 		 = false;
 		pos['deliveryPrice'] = 0;
-		pos['isActive']  	 = false;
+		pos['isActive']  	 = true;  // Active to Login 
+		pos['isOn']			 = false; // Do not appear at Client APP yet
 		pos['passwd'] 	 	 = utils_auth.generatePasswordHash(pos.passwd);
 		pos['timeStamp'] 	 = new Date();
 
@@ -204,7 +205,7 @@ module.exports = (app) => {
 
 		Pos
 			.find({"city": city}, filter)
-			.sort({"isActive": -1})
+			.sort({"isActive": -1, isOn: -1})
 			.exec()
 			.then(
 				function(poss){
@@ -252,6 +253,8 @@ module.exports = (app) => {
 
 		if('isActive' in pos)
 			values['isActive'] = pos.isActive;
+		if('isOn' in pos)
+			values['isOn'] = pos.isOn;
 		if('category' in pos)
 			values['category'] = pos.category;
 		if('orderRatio' in pos)

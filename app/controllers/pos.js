@@ -117,7 +117,7 @@ module.exports = (app) => {
 
 		Pos
 			.find(
-				{city: city, category: category, isActive: true},
+				{city: city, category: category, isActive: true, isOn: true},
 				filter
 			)
 			.sort({"open": -1})
