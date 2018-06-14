@@ -292,7 +292,9 @@ module.exports = (app) => {
 		           	month: { $month: "$timeStamp" },
 		            amount: {$cond : [{$eq: ['$status', 'canceled']}, 0 , "$orderRatio"]},
 		           	countValid: {$cond : [{$eq: ['$status', 'canceled']}, 0 , 1]},
-		           	countInvalid: {$cond : [{$eq: ['$status', 'canceled']}, 1 , 0]}
+		           	countInvalid: {$cond : [{$eq: ['$status', 'canceled']}, 1 , 0]},
+		           	priceRaw: {$cond : [{$eq: ['$status', 'canceled']}, 0 , {$subtract: ["$total_price", "$deliveryPrice"]}]},
+		           	priceTotal: {$cond : [{$eq: ['$status', 'canceled']}, 0 , "$total_price"]},
 			  	}
 			},
 			{
@@ -307,7 +309,9 @@ module.exports = (app) => {
 					_id: "$orderRatio",
 					totalAmount: {$sum: "$amount"},
 					countValid: {$sum: "$countValid"},
-					countInvalid: {$sum: "$countInvalid"}
+					countInvalid: {$sum: "$countInvalid"},
+					countPriceRaw: {$sum: "$priceRaw"},
+					countPriceTotal: {$sum: "$priceTotal"}
 				}
 			}
 		],
