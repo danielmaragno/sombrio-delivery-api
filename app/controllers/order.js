@@ -25,6 +25,9 @@ module.exports = function(app){
 		else
 			Pos.findOne({"id": pos_id, "isActive": true}).exec().then(function(pos){
 				if(!pos) res.sendStatus(400);
+				else if(!pos.open){
+					res.sendStatus(418); // Http 418 - Eu Sou um Bule de Chá 
+				}
 				else{
 					req.body.pos = pos;
 					next();
