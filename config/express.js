@@ -16,6 +16,7 @@ module.exports = function(){
 	app.set('port', process.env.PORT);
 
 	app.use(bodyParser.json());
+	app.use(bodyParser.json({limit: '50mb'}));
 
 	// app.use(express.static(path.join(__dirname, '../public')));
 
