@@ -4,7 +4,8 @@
   "description": "API for Sombrio Delivery project",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node-dev server.js"
   },
   "author": "Daniel Maragno Coelho",
   "license": "ISC",
