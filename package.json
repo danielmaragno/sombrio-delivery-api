@@ -10,7 +10,7 @@
   "author": "Daniel Maragno Coelho",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^5.0.1",
     "consign": "^0.1.6",
     "cors": "^2.8.4",
     "crypto": "^1.0.1",
